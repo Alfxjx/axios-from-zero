@@ -25,8 +25,30 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+const router = express.Router()
+
+registerSimpleRouter()
+
+registerBaseRouter()
+
+app.use(router)
+
 const port = process.env.PORT || 8080
 
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
+
+function registerSimpleRouter() {
+  router.get('/simple/get', function(req, res) {
+    res.json({
+      msg: `hello world`
+    })
+  })
+}
+
+function registerBaseRouter() {
+  router.get('/base/get', function(req, res) {
+    res.json(req.query)
+  })
+}
